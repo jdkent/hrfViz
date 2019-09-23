@@ -65,8 +65,8 @@ def update_data(attrname, old, new):
     model = hemodynamic_models._gamma_difference_hrf(
         tr=2, time_length=tl, onset=on, delay=dy, undershoot=un,
         dispersion=di, u_dispersion=ud, ratio=ra
-        )
-    x = np.arange(0, len(model)) * scale.value
+        ) * scale.value
+    x = np.arange(0, len(model))
     source.data = dict(x=x, y=model)
 
 
