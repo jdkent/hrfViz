@@ -40,7 +40,7 @@ undershoot = Slider(title="undershoot", value=16.0, start=4, end=32, step=0.1)
 dispersion = Slider(title="dispersion", value=1.0, start=0.1, end=5.0, step=0.1)
 u_dispersion = Slider(title="u_dispersion", value=1.0, start=0.1, end=5.0, step=0.1)
 ratio = Slider(title="ratio", value=0.167, start=0.01, end=2.0, step=0.1)
-
+scale = Slider(title="amplitude", value=1, start=0, end=5, step=0.1)
 
 # Set up callbacks
 def update_title(attrname, old, new):
@@ -66,17 +66,18 @@ def update_data(attrname, old, new):
         tr=2, time_length=tl, onset=on, delay=dy, undershoot=un,
         dispersion=di, u_dispersion=ud, ratio=ra
         )
-    x = np.arange(0, len(model))
+    x = np.arange(0, len(model)) * scale.value
     source.data = dict(x=x, y=model)
 
 
-for w in [delay, time_length, onset, delay, undershoot, dispersion, u_dispersion, ratio]:
+for w in [delay, time_length, onset, delay, undershoot, dispersion, u_dispersion, ratio, scale]:
     w.on_change('value', update_data)
 
 
 # Set up layouts and add to document
 inputs = column(text, delay, time_length, onset,
-                delay, undershoot, dispersion, u_dispersion, ratio)
+                delay, undershoot, dispersion, u_dispersion, ratio,
+                scale)
 
 curdoc().add_root(row(inputs, plot, width=800))
-curdoc().title = "Sliders"
+curdoc().title = "My HRF"
